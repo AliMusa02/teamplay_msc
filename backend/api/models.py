@@ -23,12 +23,15 @@ class CustomAccountManager(BaseUserManager):
         other_fields.setdefault('is_superuser', True)
         other_fields.setdefault('is_active', True)
 
+        other_fields['is_captian'] = False
+        other_fields['is_player'] = False
+
         if other_fields.get('is_staff') is not True:
-            raise ValueError(" Superuser must be assigned to is_staff= true")
+            raise ValueError("Superuser must be assigned to is_staff=True.")
 
         if other_fields.get('is_superuser') is not True:
             raise ValueError(
-                " Superuser must be assigned to is_superuser= true")
+                "Superuser must be assigned to is_superuser=True.")
 
         return self.create_user(email, user_name, first_name, password, **other_fields)
 
