@@ -13,6 +13,7 @@ class CustomAccountManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(email=email, user_name=user_name,
                           first_name=first_name, **other_fields)
+        # other_fields.setdefault('is_active', True)
         user.set_password(password)
         user.save()
         return user
@@ -43,7 +44,7 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
     start_date = models.DateTimeField(default=timezone.now)
     about = models.TextField(_('about'), max_length=500, blank=True)
     is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     is_captian = models.BooleanField(default=False)
     is_player = models.BooleanField(default=True)
 
@@ -54,27 +55,3 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.user_name
-
-
-# Create your models here.
-
-
-# class CustomUserManager(UserManager):
-#     def create_user(self, email, password, **extra_fields):
-#         if not email:
-#             raise ValueError("You have not provided an email")
-
-#         email = self.normalize_email(email)
-#         user = self.model(email=email, **extra_fields)
-#         user.set_password(password)()
-#         user.save(using=self._db)
-
-#         return user
-
-# def create_user(self, email=None, password=None, **extra_fields):
-#     extra_fields.setdefault('is_staff', False)
-#     extra_fields.setdefault('is_superuser', False)
-#     return self._create_user(email, password, **extra_fields)
-
-# def create_superuser(self, username, email, password, **extra_fields):
-#     return super().create_superuser(username, email, password, **extra_fields)
