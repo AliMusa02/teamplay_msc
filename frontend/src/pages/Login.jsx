@@ -4,7 +4,7 @@ import { useState } from "react"
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants"
 import "../styles/Login.css"
 
-function Login(method) {
+function Login() {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -26,7 +26,10 @@ function Login(method) {
             }
 
         } catch (error) {
-            alert(error)
+            if (error.response) {
+                console.log("Backend error response:", error.response.data);
+                alert(JSON.stringify(error.response.data)); // Show detailed message
+            }
         } finally {
             setLoading(false)
         }
@@ -49,6 +52,10 @@ function Login(method) {
 
             <button className="form-button">Login</button>
         </form>
+        <button className="form-button" >
+            <a href="/register">Register</a>
+        </button>
+
     </>
 
 }
