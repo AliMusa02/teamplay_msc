@@ -1,6 +1,14 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import api from "../api"
+import "../styles/Login.css"
+import bgImage from '../assets/Login_bg_photo.jpg'
+import { FaRegUser } from "react-icons/fa";
+import { FaRegMessage } from "react-icons/fa6";
+import { RiLockPasswordLine } from "react-icons/ri";
+import { MdOutlineEmail } from "react-icons/md";
+import { CgProfile } from "react-icons/cg";
+
 
 
 function Register() {
@@ -11,6 +19,8 @@ function Register() {
     const [is_captain, setIsCaptain] = useState(false);
     const [password, setPassword] = useState("")
     const [passwordConf, setPasswordConf] = useState("")
+    const [profilePic, setProfilePic] = useState(null);
+
 
 
     const [loading, setLoading] = useState(false)
@@ -50,52 +60,104 @@ function Register() {
     }
 
     return <>
-        <form onSubmit={handleSubmit} className="form-container">
-            <h1>Register</h1>
-            <input className="form-input"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                type="text"
-                placeholder="Email" />
-            <input className="form-input"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                type="text"
-                placeholder="Username" />
-            <input className="form-input"
-                value={firstname}
-                onChange={(e) => setFirstname(e.target.value)}
-                type="text"
-                placeholder="Firstname" />
-            <input className="form-input"
-                value={about}
-                onChange={(e) => setAbout(e.target.value)}
-                type="text"
-                placeholder="About" />
+        <div className="bg_photo">
+            <form onSubmit={handleSubmit} className="form-container">
+                <h1 className="header-register" >Register</h1>
+                {/* <p>Join the community and start playing!</p> */}
+                <div className="input-wrapper">
+                    <MdOutlineEmail className="input-icon" />
+                    <input className="form-input"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        type="text"
+                        placeholder="Enter your email" />
+                </div>
 
-            <label>
-                Is Captain
-                <input
-                    type="checkbox"
-                    checked={is_captain}
-                    onChange={handleCaptainChange}
-                />
-            </label>
-            <input className="form-input"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                type="Password"
-                placeholder="Password" />
-            <input className="form-input"
-                value={passwordConf}
-                onChange={(e) => setPasswordConf(e.target.value)}
-                type="Password"
-                placeholder="Password Confirmation" />
+                <div className="input-wrapper">
+                    <FaRegUser className="input-icon" />
+                    <input className="form-input"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        type="text"
+                        placeholder="Enter your username" />
+                </div>
 
-            <button className="form-button">Register</button>
-        </form>
+                <div className="input-wrapper">
+                    <FaRegUser className="input-icon" />
+                    <input className="form-input"
+                        value={firstname}
+                        onChange={(e) => setFirstname(e.target.value)}
+                        type="text"
+                        placeholder="Enter your firstname" />
+                </div>
+                <div className="input-wrapper">
+                    <FaRegMessage className="input-icon" />
+                    <input className="form-input"
+                        value={about}
+                        onChange={(e) => setAbout(e.target.value)}
+                        type="text"
+                        placeholder="About" />
+                </div>
 
-    </ >
+
+                <div className="input-wrapper">
+                    <RiLockPasswordLine className="input-icon" />
+                    <input className="form-input"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        type="Password"
+                        placeholder="Enter your password" />
+                </div>
+                <div className="input-wrapper">
+                    <RiLockPasswordLine className="input-icon" />
+                    <input className="form-input"
+                        value={passwordConf}
+                        onChange={(e) => setPasswordConf(e.target.value)}
+                        type="Password"
+                        placeholder="Password Confirmation" />
+                </div>
+
+
+                {/* <label className="file-upload-label"> Choose a profile picture:
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setProfilePic(e.target.files[0])}
+                        className="form-input-pic"
+                    />
+                </label> */}
+                <div className="file-upload-wrapper">
+                    <label htmlFor="profilePic" className="custom-file-label">
+                        📁 Upload Profile Picture
+                    </label>
+                    <input
+                        type="file"
+                        id="profilePic"
+                        accept="image/*"
+                        onChange={(e) => setProfilePic(e.target.files[0])}
+                        className="file-input-hidden"
+                    />
+                    {profilePic && <span className="file-name">{profilePic.name}</span>}
+                </div>
+
+
+
+
+                <div className="tickbox-cont">
+                    <p>Captain:</p>
+                    <input
+                        type="checkbox"
+                        checked={is_captain}
+                        onChange={handleCaptainChange}
+                        className="checkbox"
+                    />
+                </div>
+                <button className="form-button">Register</button>
+                <p>If you have an account <a href="/login">Login</a></p>
+            </form >
+        </div >
+    </>
+
 
 }
 

@@ -3,6 +3,8 @@ import api from "../api"
 import { useState } from "react"
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants"
 import "../styles/Login.css"
+import { MdOutlineEmail } from "react-icons/md"
+import { RiLockPasswordLine } from "react-icons/ri"
 
 function Login() {
 
@@ -36,27 +38,30 @@ function Login() {
     }
 
 
-    return <>
+    return <div className="bg_photo">
         <form action="" onSubmit={handleSubmit} className="form-container">
             <h1>Login</h1>
-            <input className="form-input"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                type="text"
-                placeholder="Email" />
-            <input className="form-input"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                type="Password"
-                placeholder="Password" />
+            <div className="input-wrapper">
+                <MdOutlineEmail className="input-icon" />
+                <input className="form-input"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    type="text"
+                    placeholder="Enter your email" />
+            </div>
+            <div className="input-wrapper">
+                <RiLockPasswordLine className="input-icon" />
+                <input className="form-input"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    type="Password"
+                    placeholder="Enter your password" />
+            </div>
 
             <button className="form-button">Login</button>
+            <p>You don't have an account? <a href="/register">Register</a></p>
         </form>
-        <button className="form-button" >
-            <a href="/register">Register</a>
-        </button>
-
-    </>
+    </div>
 
 }
 

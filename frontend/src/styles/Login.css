@@ -1,13 +1,48 @@
+/* body {
+    background-image: url('../assets/Login_bg_photo.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+    min-height: 100vh;
+    margin: 0;
+} */
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+
+.bg_photo {
+    margin: 0;
+    padding: 0;
+    background-attachment: fixed;
+    width: 100%;
+    min-height: 100vh;
+    background-image: url('../assets/bg4_photo.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* padding: 2rem 0; */
+}
+
 .form-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 50px auto;
+    margin: 10px auto;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
     max-width: 400px;
+    background-color: beige;
 }
 
 .form-input {
@@ -17,12 +52,57 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+    padding: 10px 10px 10px 40px;
+}
+
+.form-input-pic {
+    width: 90%;
+    margin: 10px 0px 0px 0px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-icon {
+    position: absolute;
+    top: 50%;
+    left: 8%;
+    transform: translateY(-50%);
+    color: #555;
+    font-size: 16px;
+
+}
+
+.preview-wrapper {
+    margin: 10px 0;
+    text-align: left;
+}
+
+.profile-preview {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 2px solid #ccc;
+}
+
+.file-upload-label {
+    width: 90%;
+    display: block;
+    text-align: left;
 }
 
 .form-button {
     width: 95%;
     padding: 10px;
-    margin: 20px 0;
+    margin: 10px 0;
     background-color: #007bff;
     color: white;
     border: none;
@@ -33,4 +113,53 @@
 
 .form-button:hover {
     background-color: #0056b3;
+}
+
+.header-register {
+    margin: 5px 0px;
+}
+
+.tickbox-cont {
+    display: flex;
+    width: 90%;
+
+}
+
+.tickbox-cont>input {
+    cursor: pointer;
+}
+
+/* FILE UPLOADER */
+.file-upload-wrapper {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: flex-start;
+    margin-top: 0.5rem;
+}
+
+.custom-file-label {
+    display: inline-block;
+    background-color: #0e8c36;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+}
+
+.custom-file-label:hover {
+    background-color: #3367d6;
+}
+
+.file-input-hidden {
+    display: none;
+}
+
+.file-name {
+    margin-top: 0.5rem;
+    font-size: 14px;
+    color: #333;
 }
