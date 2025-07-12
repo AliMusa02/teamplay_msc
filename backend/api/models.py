@@ -24,9 +24,6 @@ class CustomAccountManager(BaseUserManager):
         other_fields.setdefault('is_superuser', True)
         other_fields.setdefault('is_active', True)
 
-        other_fields['is_captian'] = False
-        other_fields['is_player'] = False
-
         if other_fields.get('is_staff') is not True:
             raise ValueError("Superuser must be assigned to is_staff=True.")
 
@@ -45,8 +42,8 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
     about = models.TextField(_('about'), max_length=500, blank=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
-    is_captian = models.BooleanField(default=False)
-    is_player = models.BooleanField(default=True)
+    profilePic = models.ImageField(
+        null=True, blank=True, upload_to="images/", default='images/fallback.png')
 
     objects = CustomAccountManager()
 

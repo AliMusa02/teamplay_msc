@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom"
-import api from "../api"
+import api from "../../api"
 import { useState } from "react"
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants"
-import "../styles/Login.css"
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../constants"
+import "../../styles/Login.css"
 import { MdOutlineEmail } from "react-icons/md"
 import { RiLockPasswordLine } from "react-icons/ri"
 

@@ -1,13 +1,11 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import api from "../api"
-import "../styles/Login.css"
-import bgImage from '../assets/Login_bg_photo.jpg'
+import api from "../../api"
+import "../../styles/Login.css"
 import { FaRegUser } from "react-icons/fa";
 import { FaRegMessage } from "react-icons/fa6";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { MdOutlineEmail } from "react-icons/md";
-import { CgProfile } from "react-icons/cg";
 
 
 
@@ -129,6 +127,7 @@ function Register() {
                 <div className="file-upload-wrapper">
                     <label htmlFor="profilePic" className="custom-file-label">
                         📁 Upload Profile Picture
+                        {profilePic && <span className="file-name"> – {profilePic.name}</span>}
                     </label>
                     <input
                         type="file"
@@ -137,7 +136,6 @@ function Register() {
                         onChange={(e) => setProfilePic(e.target.files[0])}
                         className="file-input-hidden"
                     />
-                    {profilePic && <span className="file-name">{profilePic.name}</span>}
                 </div>
 
 

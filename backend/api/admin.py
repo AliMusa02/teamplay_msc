@@ -11,7 +11,7 @@ class UserAdminConfig(UserAdmin):
     list_filter = ('email', 'user_name', 'first_name', 'is_active')
     ordering = ("-start_date",)
     list_display = ('email', 'user_name', 'first_name',
-                    'is_active', 'is_staff')
+                    'is_active', 'is_staff', 'profilePic')
 
     fieldsets = (
         ('Essentials', {
@@ -19,12 +19,12 @@ class UserAdminConfig(UserAdmin):
         }),
         ('Permissions', {'fields': ('is_staff', 'is_active')}),
         ('Personal', {
-         'fields': ('about', 'is_captian', 'is_player', 'start_date')})
+         'fields': ('about', 'start_date', 'profilePic')})
     )
 
     add_fieldsets = (
         (None, {'classes': ('wide',), 'fields': (
-            'email', 'user_name', 'first_name', 'password1', 'password2', 'is_active', 'is_staff')}),
+            'email', 'user_name', 'first_name', 'password1', 'password2', 'profilePic', 'is_active', 'is_staff')}),
     )
 
     # formfield_overrides = {

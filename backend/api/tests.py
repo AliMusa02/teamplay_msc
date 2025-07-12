@@ -15,8 +15,6 @@ class UserAccountTests(TestCase):
         self.assertEqual(super_user.password, 'password')
         self.assertTrue(super_user.is_superuser)
         self.assertTrue(super_user.is_staff)
-        self.assertFalse(super_user.is_captian)
-        self.assertTrue(super_user.is_player)
         self.assertEqual(str(super_user), "username")
 
         with self.assertRaises(ValueError):
