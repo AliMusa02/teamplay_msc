@@ -1,9 +1,11 @@
 
 from rest_framework import generics
 from .serializer import TeamSerializer
-from django.core.exceptions import PermissionDenied
+from rest_framework.exceptions import PermissionDenied, NotFound
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
+from django.http import Http404
+
 
 from .models import Teams, TeamMember
 # Create your views here.
@@ -50,3 +52,25 @@ class getOneTeam(generics.RetrieveAPIView):
     queryset = Teams.objects.all()
     serializer_class = TeamSerializer
     permission_classes = [IsAuthenticated]
+
+
+class updateTeam(generics.UpdateAPIView):
+    # queryset = Teams.objects.all()
+    serializer_class = TeamSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Teams.objects.filter(captain=self.request.user)
+
+    def get_object(self):
+        try:
+            team = super().get_object()
+        except:
+            raise NotFound(
+                "Either the team does not exist or you do not have permission to update it.")
+
+        if team.captain != self.request.user:
+            raise PermissionDenied(
+                "Only the team captain can update this team.")
+
+        return team
