@@ -44,3 +44,9 @@ class deleteTeam(generics.DestroyAPIView):
         if team.captain != self.request.user:
             raise PermissionDenied("You cannot delete someone else's post.")
         return team
+
+
+class getOneTeam(generics.RetrieveAPIView):
+    queryset = Teams.objects.all()
+    serializer_class = TeamSerializer
+    permission_classes = [IsAuthenticated]
