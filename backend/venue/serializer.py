@@ -16,3 +16,9 @@ class VenueSlotsSerializer(serializers.ModelSerializer):
         model = VenueSlots
         fields = ['id', 'venue_id', 'venue_name',
                   'slot_time', 'is_booked', 'created_at']
+
+    def update(self, instance, validated_data):
+        if 'is_booked' in validated_data and len(validated_data) == 1:
+            return super().update(instance, validated_data)
+        raise serializers.ValidationError(
+            "Only 'is_booked' field can be updated.")

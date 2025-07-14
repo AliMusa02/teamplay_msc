@@ -43,3 +43,16 @@ class GetVenueSlot(generics.ListAPIView):
             venue_id=venue_id,
             is_booked=False
         )
+
+
+class UpdateVenueSlot(generics.UpdateAPIView):
+    queryset = VenueSlots.objects.all()
+    serializer_class = VenueSlotsSerializer
+    permission_classes = [IsAuthenticated]
+
+    def update(self, request, *args, **kwargs):
+        if 'is_booked' not in request.data or len(request.data) != 1:
+            raise PermissionDenied(
+                "You can only update the 'is_booked' field.")
+
+        return super().update(request, *args, **kwargs)
