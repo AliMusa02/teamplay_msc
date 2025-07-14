@@ -43,7 +43,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=400),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=4000000),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
 
@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'teams',
     'posts',
+    'venue'
 ]
 
 AUTH_USER_MODEL = 'api.NewUser'
