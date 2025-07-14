@@ -1,0 +1,7 @@
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path("teams/", views.CreateAndGetTeams.as_view(), name="get-teams"),
+    path("teams/delete/<int:pk>/", views.deleteTeam.as_view(), name="delete-team")
+]

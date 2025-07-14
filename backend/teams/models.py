@@ -9,10 +9,21 @@ User = get_user_model()
 
 
 class Teams(models.Model):
-    team_name = models.CharField(_("team name"), max_length=50)
+    team_name = models.CharField(
+        _("team name"), max_length=50, unique=True, null=False, blank=False)
     team_logo = models.ImageField(
         null=True, blank=True, upload_to="images/", default='images/fallback.png')
-    about = models.TextField(_('about'), max_length=500, blank=True)
+    about = models.TextField(
+        _('about'), max_length=500, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     captain = models.OneToOneField(
-        User, on_delete=models.SET_NULL, related_name="team", null=True, blank=True)
+        User, on_delete=models.PROTECT, related_name="team", null=True, blank=True)
+
+
+class TeamMember(models.Model):
+    user = models.OneToOneField(User,
+                                on_delete=models.CASCADE, unique=True)
+    team = models.ForeignKey(
+        Teams, on_delete=models.CASCADE, related_name="members")
+    joined_at = models.DateTimeField(auto_now_add=True)
+    role = models.CharField(max_length=50)

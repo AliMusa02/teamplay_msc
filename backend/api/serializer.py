@@ -23,6 +23,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    # author_team_name = serializers.SerializerMethodField()
     class Meta:
         model = User
         fields = ["id", "email", "user_name", "first_name", 'password',
