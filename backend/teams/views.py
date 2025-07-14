@@ -1,6 +1,6 @@
 
 from rest_framework import generics
-from .serializer import TeamSerializer
+from .serializer import TeamSerializer, TeamMemberSerializer
 from rest_framework.exceptions import PermissionDenied, NotFound
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -10,6 +10,8 @@ from django.http import Http404
 from .models import Teams, TeamMember
 # Create your views here.
 
+
+# TEAM GET,CREATE,DELETE AND UPDATE APIS
 
 class CreateAndGetTeams(generics.ListCreateAPIView):
     serializer_class = TeamSerializer
@@ -74,3 +76,41 @@ class updateTeam(generics.UpdateAPIView):
                 "Only the team captain can update this team.")
 
         return team
+
+
+# JOIN AND LEAVE A TEAM AS A PLAYER
+class creataTeamMember(generics.CreateAPIView):
+    serializer_class = TeamMemberSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return TeamMember.objects.select_related("user", "team").all()
+
+    def perform_create(self, serializer):
+        if TeamMember.objects.filter(user=self.request.user).exists():
+            raise PermissionDenied("You are already in a team.")
+
+        team_id = self.kwargs.get("team_id")
+        try:
+            team = Teams.objects.get(id=team_id)
+        except:
+            raise NotFound("Team does not exist.")
+        serializer.save(user=self.request.user, team=team, role="player")
+
+
+class leaveTeam(generics.DestroyAPIView):
+    serializer_class = TeamMemberSerializer
+    permission_classes = [IsAuthenticated]
+
+    # def get_queryset(self):
+    #     return TeamMember.objects.filter(role="player")
+
+    def get_object(self):
+        try:
+            team_member = TeamMember.objects.get(user=self.request.user)
+        except TeamMember.DoesNotExist:
+            raise PermissionDenied("You are not part of any team.")
+
+        if team_member.role == "captain":
+            raise PermissionDenied("Captain cannot leave a team.")
+        return team_member
