@@ -67,7 +67,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'teams',
     'posts',
-    'venue'
+    'venue',
+    'matches'
 ]
 
 AUTH_USER_MODEL = 'api.NewUser'

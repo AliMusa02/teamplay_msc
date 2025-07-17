@@ -33,7 +33,7 @@ class UpdateVenues(generics.UpdateAPIView):
 
 
 # VENUE SLOTS APIS
-class GetVenueSlot(generics.ListAPIView):
+class GetVenueSlot(generics.ListCreateAPIView):
     serializer_class = VenueSlotsSerializer
     permission_classes = [IsAuthenticated]
 
@@ -43,6 +43,13 @@ class GetVenueSlot(generics.ListAPIView):
             venue_id=venue_id,
             is_booked=False
         )
+    
+    def perform_create(self, serializer):
+        return super().perform_create(serializer)
+
+    # def perform_create(self, serializer):
+
+    #     return super().perform_create(serializer)
 
 
 class UpdateVenueSlot(generics.UpdateAPIView):

@@ -13,7 +13,8 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path("api/", include('posts.urls')),
     path("api/", include('teams.urls')),
-    path("api/", include('venue.urls'))
+    path("api/", include('venue.urls')),
+    path("api/", include('matches.urls'))
 ]
 
 
