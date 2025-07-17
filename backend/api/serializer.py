@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from teams.models import Teams
 
 
 User = get_user_model()
@@ -22,12 +23,20 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         return super().validate(attrs)
 
 
+class TeamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Teams
+        fields = ["id", "team_name", 'team_logo', 'captain']
+
+
 class UserSerializer(serializers.ModelSerializer):
     # author_team_name = serializers.SerializerMethodField()
+    team = TeamSerializer(read_only=True)
+
     class Meta:
         model = User
         fields = ["id", "email", "user_name", "first_name", 'password',
-                  "about", "profilePic"]
+                  "about", "profilePic", 'team']
         extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):

@@ -7,5 +7,5 @@ urlpatterns = [
     path("venues/slot/<int:venue_id>/",
          views.GetVenueSlot.as_view(), name="get-timeSlots"),
     path("venues/update/slot/<int:pk>/",
-         views.UpdateVenueSlot.as_view(), name="update-venue-book")
+         views.UpdateVenueSlot.as_view(), name="update-venue-book"),
 ]

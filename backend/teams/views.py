@@ -46,7 +46,7 @@ class deleteTeam(generics.DestroyAPIView):
     def get_object(self):
         team = super().get_object()
         if team.captain != self.request.user:
-            raise PermissionDenied("You cannot delete someone else's post.")
+            raise PermissionDenied("You cannot delete someone else's team.")
         return team
 
 
