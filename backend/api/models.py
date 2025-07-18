@@ -13,7 +13,6 @@ class CustomAccountManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(email=email, user_name=user_name,
                           first_name=first_name, **other_fields)
-        # other_fields.setdefault('is_active', True)
         user.set_password(password)
         user.save()
         return user
@@ -35,8 +34,10 @@ class CustomAccountManager(BaseUserManager):
 
 
 class NewUser(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(_('email_address'), unique=True)
-    user_name = models.CharField(max_length=150, unique=True)
+    email = models.EmailField(
+        _('email_address'), null=False, blank=False, unique=True)
+    user_name = models.CharField(
+        max_length=150, null=False, blank=False, unique=True)
     first_name = models.CharField(max_length=150, blank=True)
     start_date = models.DateTimeField(default=timezone.now)
     about = models.TextField(_('about'), max_length=500, blank=True)

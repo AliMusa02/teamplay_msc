@@ -4,6 +4,7 @@ from .serializer import TeamSerializer, TeamMemberSerializer
 from rest_framework.exceptions import PermissionDenied, NotFound
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
+from rest_framework import status
 from django.http import Http404
 
 
@@ -32,22 +33,31 @@ class CreateAndGetTeams(generics.ListCreateAPIView):
             raise PermissionDenied(
                 "You are already in a team and cannot create another.")
 
+        if Teams.objects.filter(team_name=serializer.validated_data['team_name']).exists():
+            raise PermissionDenied("A team with this name already exists.")
+
         team = serializer.save(captain=user)
         TeamMember.objects.create(user=user, team=team, role="captain")
 
 
 class deleteTeam(generics.DestroyAPIView):
+    queryset = Teams.objects.all()
     serializer_class = TeamSerializer
     permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        return Teams.objects.filter(captain=self.request.user)
+    # def get_queryset(self):
+    #     return Teams.objects.filter(captain=self.request.user)
 
     def get_object(self):
         team = super().get_object()
         if team.captain != self.request.user:
             raise PermissionDenied("You cannot delete someone else's team.")
         return team
+
+    def delete(self, request, *args, **kwargs):
+        team = self.get_object()
+        response = super().delete(request, *args, **kwargs)
+        return Response({"message": "Team successfully deleted"}, status=status.HTTP_200_OK)
 
 
 class getOneTeam(generics.RetrieveAPIView):
@@ -77,9 +87,16 @@ class updateTeam(generics.UpdateAPIView):
 
         return team
 
+    def update(self, request, *args, **kwargs):
+        response = super().update(request, *args, **kwargs)
+        return Response({
+            "message": "Team successfully updated",
+            "data": response.data
+        }, status=status.HTTP_200_OK)
+
 
 # JOIN AND LEAVE A TEAM AS A PLAYER
-class creataTeamMember(generics.CreateAPIView):
+class createTeamMember(generics.CreateAPIView):
     serializer_class = TeamMemberSerializer
     permission_classes = [IsAuthenticated]
 
@@ -109,8 +126,13 @@ class leaveTeam(generics.DestroyAPIView):
         try:
             team_member = TeamMember.objects.get(user=self.request.user)
         except TeamMember.DoesNotExist:
-            raise PermissionDenied("You are not part of any team.")
+            raise NotFound("You are not part of any team.")
 
         if team_member.role == "captain":
             raise PermissionDenied("Captain cannot leave a team.")
         return team_member
+
+    def delete(self, request, *args, **kwargs):
+        member = self.get_object()
+        response = super().delete(request, *args, **kwargs)
+        return Response({"message": "You have successfully left the team."}, status=status.HTTP_200_OK)

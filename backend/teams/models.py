@@ -22,7 +22,7 @@ class Teams(models.Model):
 
 class TeamMember(models.Model):
     user = models.OneToOneField(User,
-                                on_delete=models.CASCADE, unique=True)
+                                on_delete=models.CASCADE)
     team = models.ForeignKey(
         Teams, on_delete=models.CASCADE, related_name="members")
     joined_at = models.DateTimeField(auto_now_add=True)

@@ -6,7 +6,7 @@ User = get_user_model()
 
 
 class PostSerializer(serializers.ModelSerializer):
-    author_id = serializers.CharField(
+    author_id = serializers.IntegerField(
         source='author.id', read_only=True)
     author_username = serializers.CharField(
         source='author.user_name', read_only=True)
@@ -20,13 +20,13 @@ class PostSerializer(serializers.ModelSerializer):
         model = Posts
         fields = ["id", "content", "created_at", "post_pic", "author_id",
                   'author_username', 'author_profilePic', 'author_team_name']
-        extra_kwargs = {"author_username": {"read_only": True}, "author_profilePic": {
-            "read_only": True}, "author_team_name": {"read_only": True}}
+        # extra_kwargs = {"author_username": {"read_only": True}, "author_profilePic": {
+        #     "read_only": True}, "author_team_name": {"read_only": True}}
 
     def get_author_team_name(self, obj):
         try:
             return obj.author.team.team_name
         except AttributeError:
             return "User has no team"
-        except Exception:
-            return None
+        # except Exception:
+        #     return None

@@ -86,10 +86,10 @@ class CreateAndGetInvitations(generics.ListCreateAPIView):
             "data": serializer.data
         }, status=status.HTTP_200_OK)
 
-        return Response({
-            "message": "Pending invitations fetched successfully",
-            "data": serializer.data
-        })
+        # return Response({
+        #     "message": "Pending invitations fetched successfully",
+        #     "data": serializer.data
+        # })
 
 
 class UpdateInvitation(generics.UpdateAPIView):
@@ -121,7 +121,7 @@ class UpdateInvitation(generics.UpdateAPIView):
             ).first()
 
             if existing_slot and existing_slot.is_booked:
-                return Response({"error": "The selected slot is already booked."}, status=400)
+                return Response({"error": "The selected slot is already booked."}, status=status.HTTP_400_BAD_REQUEST)
 
             if existing_slot:
                 existing_slot.is_booked = True
@@ -136,7 +136,7 @@ class UpdateInvitation(generics.UpdateAPIView):
                     is_booked=True
                 )
 
-            Matches.objects.create(
+            match = Matches.objects.create(
                 home_team=invitation.sender_team,
                 away_team=invitation.receiver_team,
                 venue=invitation.venue,
@@ -145,7 +145,8 @@ class UpdateInvitation(generics.UpdateAPIView):
 
         return Response({
             "message": f"Invitation successfully {new_status}.",
-            "status": new_status
+            "status": new_status,
+            "match_id": match.id
         }, status=status.HTTP_200_OK)
 
 
@@ -166,6 +167,7 @@ class GetOwnMatches(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
+        user = self.request.user
         team_id = self.kwargs.get("team_id")
 
         if not team_id:
@@ -175,5 +177,8 @@ class GetOwnMatches(generics.ListAPIView):
             team = Teams.objects.get(id=team_id)
         except Teams.DoesNotExist:
             raise NotFound("Team not found.")
+
+        if not (team.captain == user or team.members.filter(user=user).exists()):
+            raise PermissionDenied("You are not part of this team.")
 
         return Matches.objects.filter(Q(home_team=team) | Q(away_team=team))

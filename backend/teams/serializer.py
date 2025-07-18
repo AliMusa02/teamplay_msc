@@ -27,6 +27,12 @@ class TeamSerializer(serializers.ModelSerializer):
         source='captain.user_name', read_only=True)
     members = serializers.SerializerMethodField()
 
+    def get_captain_id(self, obj):
+        return obj.captain.id if obj.captain else None
+
+    def get_captain_username(self, obj):
+        return obj.captain.user_name if obj.captain else None
+
     class Meta:
         model = Teams
         fields = ["id", "team_name", "team_logo",

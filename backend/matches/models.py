@@ -9,7 +9,7 @@ from datetime import date
 
 class Invitation(models.Model):
     sender_team = models.ForeignKey(
-        Teams, on_delete=models.CASCADE, related_name='sender_invitations')
+        Teams, on_delete=models.CASCADE, related_name='sender_invitations', null=False, blank=False)
     receiver_team = models.ForeignKey(
         Teams, on_delete=models.CASCADE, related_name='receiver_invitations', null=False, blank=False)
     venue = models.ForeignKey(

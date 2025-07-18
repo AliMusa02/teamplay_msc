@@ -28,7 +28,7 @@ class UpdateVenues(generics.UpdateAPIView):
 
     def perform_update(self, serializer):
         if not self.request.user.is_staff:
-            PermissionDenied("Only admin can update")
+            raise PermissionDenied("Only admin can update")
         serializer.save()
 
 
@@ -43,7 +43,7 @@ class GetVenueSlot(generics.ListCreateAPIView):
             venue_id=venue_id,
             is_booked=False
         )
-    
+
     def perform_create(self, serializer):
         return super().perform_create(serializer)
 

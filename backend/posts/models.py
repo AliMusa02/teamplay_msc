@@ -10,7 +10,7 @@ User = get_user_model()
 
 class Posts(models.Model):
     content = models.TextField(
-        _('about'), max_length=500, blank=False, null=False)
+        _('content'), max_length=500, blank=False, null=False)
     post_pic = models.ImageField(
         null=True, blank=True, upload_to="images/", default='images/fallback.png')
     created_at = models.DateTimeField(auto_now_add=True)
@@ -19,3 +19,6 @@ class Posts(models.Model):
 
     def __str__(self):
         return self.content
+
+    class Meta:
+        ordering = ['-created_at']
